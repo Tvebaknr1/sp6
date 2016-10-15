@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="optionalModuleName" ng-controller="MyController as ctrl">
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    </head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
+        <script>
+            var myangular = angular.module("optionalModuleName", ['ngRoute']);
+            myangular.controller("MyController", ['$scope', function($scope) {
+                var self = this;
+                self.persons = [
+                    {id: 1, name: "Jens", age: 18}
+                    , {id: 2, name: "Peter", age: 23}
+                    , {id: 3, name: "Hanne", age: 23}
+                ];
+                
+                $scope.addperson = function addperson(name,age){
+                    console.log(name, age);
+                    self.persons.push({name:name,age:age});
+                };
+                
+                
+
+            }]);
+            myangular.config(
+                    function ($routeProvider) {
+                        $routeProvider.
+                                when('/AddPerson', {
+                                    templateUrl: 'addperson.html'
+                                }).
+                                when('/ShowPersons', {
+                                    templateUrl: 'showpersons.html'
+                                }).otherwise({
+                            template:"<p>error 404</p>" 
+                        });
+                    });
+
+        </script>
+        <ul class="nav">
+            <li><a href="#ShowPersons"> All Persons </a></li>
+            <li><a href="#AddPerson"> New Person </a></li>
+        </ul>
+        <div ng-view></div>
+
+
+
+    </body>
+</html>
